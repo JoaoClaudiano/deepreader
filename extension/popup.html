@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { width: 220px; font-family: system-ui; padding: 15px; text-align: center; }
+    button { 
+        background: #2563eb; color: white; border: none; padding: 12px; 
+        width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold;
+    }
+    button:hover { background: #1d4ed8; }
+  </style>
+</head>
+<body>
+  <h2 style="margin-top:0">ZenReader</h2>
+  <p>Limpar página atual (Bypassa Paywall visual)</p>
+  <button id="run">Extrair Texto</button>
+
+  <script>
+    document.getElementById('run').addEventListener('click', async () => {
+      let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: () => {
+          const bodyText = document.body.innerText;
+          const title = document.title;
+          const newWin = window.open("", "_blank");
+          newWin.document.write(`
+            <html>
+              <title>${title}</title>
+              <body style="max-width:700px; margin: 50px auto; font-family: serif; line-height: 1.6; font-size: 20px; padding: 20px; background: #fdfdfd;">
+                <h1>${title}</h1>
+                <hr>
+                <div style="white-space: pre-wrap;">${bodyText}</div>
+              </body>
+            </html>
+          `);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

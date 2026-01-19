@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenReader | Web App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mozilla/readability@0.5.0/Readability.min.js"></script>
+    <style>
+        .theme-sepia { background: #f4ecd8; color: #5b4636; }
+        .theme-dark { background: #1a1a1a; color: #d1d1d1; }
+        #content img { max-width: 100%; border-radius: 8px; margin: 2rem 0; }
+        #content p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.25rem; }
+    </style>
+</head>
+<body id="app" class="transition-colors duration-300 min-h-screen bg-gray-50">
+
+    <header class="p-6 bg-white border-b sticky top-0 z-50 no-print">
+        <div class="max-w-4xl mx-auto flex gap-3">
+            <input type="text" id="url" placeholder="Cole o link aqui..." class="flex-1 p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500 text-black">
+            <button onclick="loadArticle()" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700">Limpar</button>
+            <button onclick="window.print()" class="px-4 py-2 text-gray-500 hover:text-black font-medium">PDF</button>
+        </div>
+    </header>
+
+    <div class="max-w-4xl mx-auto p-4 flex justify-end gap-4 no-print">
+        <button onclick="setTheme('')" class="w-8 h-8 rounded-full border bg-white"></button>
+        <button onclick="setTheme('theme-sepia')" class="w-8 h-8 rounded-full border bg-[#f4ecd8]"></button>
+        <button onclick="setTheme('theme-dark')" class="w-8 h-8 rounded-full border bg-[#1a1a1a]"></button>
+    </div>
+
+    <main id="reader" class="max-w-3xl mx-auto py-10 px-6 hidden">
+        <h1 id="title" class="text-4xl font-bold mb-4"></h1>
+        <div id="content" class="font-serif"></div>
+    </main>
+
+    <script>
+        function setTheme(t) { document.getElementById('app').className = t; }
+
+        async function loadArticle() {
+            const url = document.getElementById('url').value;
+            if(!url) return;
+            
+            const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+            const res = await fetch(proxy);
+            const data = await res.json();
+            
+            const doc = new DOMParser().parseFromString(data.contents, "text/html");
+            const article = new Readability(doc).parse();
+
+            if(article) {
+                document.getElementById('title').innerText = article.title;
+                document.getElementById('content').innerHTML = article.content;
+                document.getElementById('reader').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
