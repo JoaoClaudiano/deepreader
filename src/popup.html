@@ -7,15 +7,27 @@
     button { 
       width: 100%; padding: 10px; background: #007bff; 
       color: white; border: none; border-radius: 5px; cursor: pointer;
+      margin-bottom: 8px; /* Espaçamento entre botões */
     }
-    .status { margin-top: 10px; font-size: 12px; color: #666; }
+    button:hover { background: #0056b3; }
+    .status { margin-top: 10px; font-size: 12px; color: #666; text-align: center; margin-bottom: 10px; }
+    #btn-force-text { background: #f39c12; } /* Cor diferenciada para o modo de emergência */
+    #btn-force-text:hover { background: #d35400; }
+    #btn-open-library { background: #28a745; } /* Cor para a biblioteca */
+    #btn-open-library:hover { background: #218838; }
   </style>
 </head>
 <body>
   <h3>DeepRead AI</h3>
+  
   <button id="btn-save">Salvar e Resumir</button>
+  
   <div id="status" class="status">Pronto para ler.</div>
+
+  <button id="btn-open-library">📚 Minha Biblioteca</button>
+
   <button id="btn-force-text">🚀 Abrir Modo Texto Puro</button>
+
   <script src="popup.js"></script>
 </body>
 </html>
