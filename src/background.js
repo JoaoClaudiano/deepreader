@@ -1,75 +1,13 @@
 // src/background.js
 
-// 1. Mensagem de instalação
+// 1. Mensagem de instalação e proteção
 chrome.runtime.onInstalled.addListener(() => {
-  console.log("DeepRead AI: Instalado e operando localmente.");
+  console.log("DeepRead AI: Instalado e Proteção de Scripts Ativada.");
 });
 
-// 2. Bloqueio dinâmico de Scripts de Paywall (Estratégia para O Povo, Estadão, etc)
-// Isso impede que os scripts que "trancam" a tela sejam baixados
-chrome.declarativeNetRequest.updateDynamicRules({
-  addRules: [
-    {
-      "id": 100,
-      "priority": 2,
-      "action": { "type": "block" },
-      "condition": {
-        "urlFilter": "*tinypass.com*",
-        "resourceTypes": ["script"]
-      }
-    },
-    {
-      "id": 101,
-      "priority": 2,
-      "action": { "type": "block" },
-      "condition": {
-        "urlFilter": "*piano.io*",
-        "resourceTypes": ["script"]
-      }
-    },
-    {
-      "id": 102,
-      "priority": 2,
-      "action": { "type": "block" },
-      "condition": {
-        "urlFilter": "mais.opovo.com.br/static/js/paywall*", 
-        "resourceTypes": ["script"]
-      }
-    }
-  ],
-  removeRuleIds: [100, 101, 102]
-});
-
-// 3. Listener para gerenciar salvamento local
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === "SAVE_ARTICLE_LOCAL") {
-    chrome.storage.local.get({ savedArticles: [] }, (result) => {
-      const articles = result.savedArticles;
-      
-      articles.unshift({
-        ...message.data,
-        id: typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(),
-        savedAt: new Date().toISOString()
-      });
-
-      const limitedArticles = articles.slice(0, 50);
-
-      chrome.storage.local.set({ savedArticles: limitedArticles }, () => {
-        console.log("Artigo salvo localmente:", message.data?.title);
-        sendResponse({ success: true });
-      });
-    });
-    return true; 
-  }
-});
-// src/background.js
-
-chrome.runtime.onInstalled.addListener(() => {
-  console.log("DeepRead AI: Proteção de Scripts Ativada.");
-});
-
-// Bloqueio Robusto de Scripts de Paywall
-const rules = [
+// 2. Bloqueio Robusto e Dinâmico de Scripts de Paywall
+// IDs 1-3 para regras fixas, 100-102 para garantir cobertura de domínios específicos
+const paywallRules = [
   {
     "id": 1,
     "priority": 1,
@@ -100,20 +38,35 @@ const rules = [
 ];
 
 chrome.declarativeNetRequest.updateDynamicRules({
-  addRules: rules,
+  addRules: paywallRules,
   removeRuleIds: [1, 2, 3]
 });
 
-// Listener de Salvamento Local (Mantido conforme solicitado)
+// 3. Listener Único para Gerenciamento de Salvamento Local
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "SAVE_ARTICLE_LOCAL") {
+    
     chrome.storage.local.get({ savedArticles: [] }, (result) => {
       const articles = result.savedArticles;
-      articles.unshift({ ...message.data, id: Date.now().toString(), savedAt: new Date().toISOString() });
-      chrome.storage.local.set({ savedArticles: articles.slice(0, 50) }, () => {
+      
+      // Criação do novo registro
+      const newArticle = {
+        ...message.data,
+        id: typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(),
+        savedAt: new Date().toISOString()
+      };
+
+      articles.unshift(newArticle);
+
+      // Limita a 50 artigos no storage
+      const limitedArticles = articles.slice(0, 50);
+
+      chrome.storage.local.set({ savedArticles: limitedArticles }, () => {
+        console.log("Artigo salvo localmente:", message.data?.title);
         sendResponse({ success: true });
       });
     });
-    return true;
+    
+    return true; // Mantém o canal aberto para a resposta assíncrona
   }
 });
