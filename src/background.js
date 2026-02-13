@@ -16,35 +16,35 @@ chrome.declarativeNetRequest.updateDynamicRules({
   removeRuleIds: [1, 2, 3]
 });
 
-// 2. Gerenciador de Redirecionamento (A CASCATA)
-function getFallbackURL(url, method) {
-  // Limpa a URL de qualquer prefixo de burladores antigos
-  const cleanUrl = url.replace(/^https?:\/\/12ft\.io\//, "");
+// src/background.js
 
-  if (method === 'google_cache') {
-    return `https://webcache.googleusercontent.com/search?q=cache:${cleanUrl}`;
+// ... (mantenha as regras declarativeNetRequest e o listener de save como estão)
+
+// 2. NOVA Função de Fallback (SUBSTITUINDO TXTIFY E 12FT)
+function getFallbackURL(url, method) {
+  // Remove qualquer prefixo de burladores antigos se houver
+  const cleanUrl = url.replace(/^https?:\/\/(12ft\.io|txtify\.it)\//, "");
+
+  switch(method) {
+    case 'google_cache':
+      return `https://webcache.googleusercontent.com/search?q=cache:${cleanUrl}`;
+    
+    case 'archive':
+      return `https://archive.is/latest/${cleanUrl}`;
+    
+    case 'smry':
+    default:
+      // O Smry.ai é atualmente a alternativa mais sólida ao 12ft
+      return `https://smry.ai/proxy?url=${encodeURIComponent(cleanUrl)}`;
   }
-  if (method === 'archive') {
-    return `https://archive.is/latest/${cleanUrl}`;
-  }
-  // PADRÃO: Txtify.it (O que mais funciona para O Povo e jornais BR)
-  return `https://txtify.it/${cleanUrl}`;
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === "SAVE_ARTICLE_LOCAL") {
-    chrome.storage.local.get({ savedArticles: [] }, (result) => {
-      const articles = result.savedArticles;
-      articles.unshift({ ...message.data, id: Date.now().toString(), savedAt: new Date().toISOString() });
-      chrome.storage.local.set({ savedArticles: articles.slice(0, 50) }, () => {
-        sendResponse({ success: true });
-      });
-    });
-    return true;
-  }
+  // ... (mantenha o código de SAVE_ARTICLE_LOCAL)
 
   if (message.type === "TRY_FALLBACK") {
-    const nextUrl = getFallbackURL(message.url, message.method);
+    // Agora tentamos o Smry primeiro, que é visualmente mais limpo
+    const nextUrl = getFallbackURL(message.url, message.method || 'smry');
     chrome.tabs.create({ url: nextUrl });
   }
 });
