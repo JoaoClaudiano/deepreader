@@ -1,5 +1,4 @@
 // src/content.js
-
 // 1. Limpa cookies do lado do cliente para confundir o rastreamento local
 document.cookie.split(";").forEach(function(c) { 
   document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
