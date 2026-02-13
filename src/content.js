@@ -1,18 +1,64 @@
 // 1. Função para limpar obstáculos visuais
+// src/content.js
+
 function killPaywalls() {
-  const badElements = [
-    '[class*="paywall"]', '[id*="paywall"]', 
-    '.modal-overlay', '.subscription-gate',
-    '.tp-modal', '.tp-backdrop', '#falken-paywall' // Adicionando seletores comuns no Brasil
-  ];
-  badElements.forEach(selector => {
-    document.querySelectorAll(selector).forEach(el => el.remove());
-  });
-  
-  // Destrava o scroll da página
-  document.body.style.setProperty("overflow", "auto", "important");
-  document.documentElement.style.setProperty("overflow", "auto", "important");
+    // 1. Remove os overlays e bloqueios específicos
+    const selectors = [
+        '[class*="paywall"]', '[id*="paywall"]', 
+        '.modal-overlay', '.subscription-gate',
+        '.premium-content-lock', '.tp-modal', '.tp-backdrop',
+        '#falken-paywall', '.v-overlay', '.v-dialog' // Seletores comuns em portais do NE
+    ];
+    
+    selectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach(el => {
+            el.style.display = 'none';
+            el.remove();
+        });
+    });
+
+    // 2. Destrava o corpo da página e garante que o texto apareça
+    const bodies = [document.body, document.documentElement];
+    bodies.forEach(el => {
+        el.style.setProperty("overflow", "auto", "important");
+        el.style.setProperty("position", "relative", "important");
+    });
+
+    // 3. Algumas páginas escondem o conteúdo via CSS (ex: Opovo Mais)
+    // Tentamos forçar a visibilidade de elementos de texto que podem estar ocultos
+    document.querySelectorAll('.texto-conteudo, .materia-conteudo, article').forEach(el => {
+        el.style.setProperty("display", "block", "important");
+        el.style.setProperty("visibility", "visible", "important");
+        el.style.setProperty("opacity", "1", "important");
+    });
 }
+
+// Executa a limpeza imediatamente ao carregar e também por mensagem
+killPaywalls();
+// Opcional: repetir a limpeza após 2 segundos (caso o script do site demore a rodar)
+setTimeout(killPaywalls, 2000);
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "GET_CLEAN_CONTENT") {
+        killPaywalls();
+        
+        const docClone = document.cloneNode(true);
+        const reader = new Readability(docClone);
+        const article = reader.parse();
+
+        if (article) {
+            sendResponse(article);
+        } else {
+            // Fallback: se o Readability falhar, pegamos o conteúdo bruto
+            sendResponse({
+                title: document.title,
+                content: document.body.innerText,
+                url: window.location.href
+            });
+        }
+    }
+    return true;
+});
 
 // 2. Escuta as mensagens do Popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
