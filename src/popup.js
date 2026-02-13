@@ -21,18 +21,26 @@ document.getElementById('btn-save').addEventListener('click', async () => {
   });
 });
 
-// Adicione um listener para um botão "Ver Meus Artigos"
+// Listener para um botão "Ver Meus Artigos"
 document.getElementById('btn-open-library').addEventListener('click', () => {
     chrome.tabs.create({ url: 'src/dashboard.html' });
 });
 
-// INCREMENTO: Listener para o botão de Fallback (Modo Texto Puro)
-// Esse botão deve ter o ID 'btn-force-text' no seu popup.html
+// INCREMENTO: Modo Texto Puro com Múltiplas Técnicas
 document.getElementById('btn-force-text').addEventListener('click', async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    const url = tab.url;
     
-    // Motor de emergência para sites com segurança SPA/Token (como O Povo Mais)
-    const proxyUrl = "https://txtify.it/" + tab.url;
+    // Técnica 1: Txtify (Melhor para textos e ignorar JS bloqueador)
+    const txtifyUrl = `https://txtify.it/${url}`;
     
-    chrome.tabs.create({ url: proxyUrl });
+    // Técnica 2: Google Web Cache (Ótimo para burlar Paywall de redirecionamento)
+    const googleCacheUrl = `https://webcache.googleusercontent.com/search?q=cache:${url}`;
+
+    // Técnica 3: Archive.is (O "tanque de guerra" que abre quase tudo)
+    const archiveUrl = `https://archive.is/latest/${url}`;
+
+    // Ação: Abre o Txtify por padrão, que é o mais rápido e limpo
+    // Mas você pode mudar para o Archive se preferir o mais potente
+    chrome.tabs.create({ url: txtifyUrl });
 });
