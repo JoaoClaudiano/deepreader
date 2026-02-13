@@ -12,8 +12,6 @@ document.getElementById('btn-save').addEventListener('click', async () => {
         ...articleData,
         date: new Date().toISOString()
       });
-      
-      
 
       // Salvar de volta no navegador do usuário
       chrome.storage.local.set({ savedArticles: articles }, () => {
@@ -28,3 +26,13 @@ document.getElementById('btn-open-library').addEventListener('click', () => {
     chrome.tabs.create({ url: 'src/dashboard.html' });
 });
 
+// INCREMENTO: Listener para o botão de Fallback (Modo Texto Puro)
+// Esse botão deve ter o ID 'btn-force-text' no seu popup.html
+document.getElementById('btn-force-text').addEventListener('click', async () => {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    
+    // Motor de emergência para sites com segurança SPA/Token (como O Povo Mais)
+    const proxyUrl = "https://txtify.it/" + tab.url;
+    
+    chrome.tabs.create({ url: proxyUrl });
+});
