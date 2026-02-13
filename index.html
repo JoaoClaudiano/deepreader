@@ -2,53 +2,30 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepRead AI - Leia sem limites</title>
+    <title>Minha Biblioteca - DeepRead AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .article-card:hover .delete-btn { opacity: 1; }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans">
-
-    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto">
-        <div class="text-2xl font-bold text-blue-600">DeepRead<span class="text-slate-400">AI</span></div>
-        <a href="#download" class="bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-700 transition">Baixar Grátis</a>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white shadow-sm p-4 sticky top-0 z-10">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-600">DeepRead <span class="text-gray-400 font-light">Biblioteca</span></h1>
+            <div id="stats" class="text-sm text-gray-500">0 artigos salvos</div>
+        </div>
     </nav>
 
-    <main class="max-w-4xl mx-auto text-center mt-20 px-6">
-        <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6">
-            O fim dos <span class="text-blue-600">Paywalls</span> e da desordem.
-        </h1>
-        <p class="text-xl text-slate-600 mb-10">
-            Remova anúncios, pule bloqueios de notícias e receba resumos por IA instantaneamente. O seu conhecimento, sem barreiras.
-        </p>
+    <main class="max-w-5xl mx-auto p-6">
+        <div id="articles-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
 
-        <div id="download" class="flex flex-col md:flex-row justify-center gap-4">
-            <a href="#" class="bg-slate-900 text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center hover:scale-105 transition">
-                Instalar no Microsoft Edge
-            </a>
-            <a href="https://github.com/SEU_USUARIO/SEU_REPO/archive/refs/heads/main.zip" class="border-2 border-slate-300 px-8 py-4 rounded-xl font-bold flex items-center justify-center hover:bg-slate-100 transition">
-                Baixar para Chrome (.zip)
-            </a>
+        <div id="empty-state" class="hidden text-center mt-20">
+            <p class="text-gray-400 text-xl">Você ainda não salvou nenhum artigo.</p>
+            <p class="text-blue-500 mt-2">Clique no ícone da extensão em qualquer notícia!</p>
         </div>
-        <p class="mt-4 text-sm text-slate-400 italic">Totalmente gratuito. Sem taxas ocultas.</p>
     </main>
 
-    <section class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 mt-32 px-6 pb-20">
-        <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-            <div class="text-3xl mb-4">🔓</div>
-            <h3 class="font-bold text-lg">Acesso Total</h3>
-            <p class="text-slate-500">Nossa tecnologia híbrida remove bloqueios de leitura dos principais portais brasileiros.</p>
-        </div>
-        <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-            <div class="text-3xl mb-4">🧠</div>
-            <h3 class="font-bold text-lg">IA de Bolso</h3>
-            <p class="text-slate-500">Resumos automáticos em 3 pontos para você decidir se o texto vale seu tempo.</p>
-        </div>
-        <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-            <div class="text-3xl mb-4">📂</div>
-            <h3 class="font-bold text-lg">Sincronize Tudo</h3>
-            <p class="text-slate-500">Salve seus destaques diretamente no seu app de notas favorito (Em breve).</p>
-        </div>
-    </section>
-
+    <script src="dashboard.js"></script>
 </body>
 </html>
