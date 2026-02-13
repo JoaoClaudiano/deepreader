@@ -1,32 +1,49 @@
-// src/content.js
+// 1. Função para limpar obstáculos visuais
+function killPaywalls() {
+  const badElements = [
+    '[class*="paywall"]', '[id*="paywall"]', 
+    '.modal-overlay', '.subscription-gate',
+    '.tp-modal', '.tp-backdrop', '#falken-paywall' // Adicionando seletores comuns no Brasil
+  ];
+  badElements.forEach(selector => {
+    document.querySelectorAll(selector).forEach(el => el.remove());
+  });
+  
+  // Destrava o scroll da página
+  document.body.style.setProperty("overflow", "auto", "important");
+  document.documentElement.style.setProperty("overflow", "auto", "important");
+}
 
+// 2. Escuta as mensagens do Popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "GET_CLEAN_CONTENT") {
     
-    // 1. Remove paywalls visíveis antes de processar
-    const overlays = document.querySelectorAll('[class*="paywall"], [id*="paywall"], .subscription-modal');
-    overlays.forEach(el => el.remove());
+    // Primeiro, limpamos o que estiver na frente
+    killPaywalls();
 
-    // 2. Clonamos o documento para não estragar a página que o usuário está vendo
-    const documentClone = document.cloneNode(true);
+    // Clonamos o documento para o Readability processar em "off-screen"
+    const docClone = document.cloneNode(true);
     
-    // 3. Usamos a biblioteca Readability (ela deve estar carregada no manifest)
-    // Nota: O objeto 'Readability' virá do arquivo Readability.js incluído
-    const reader = new Readability(documentClone);
+    // Usamos a biblioteca (ela deve estar carregada antes deste script no manifest)
+    const reader = new Readability(docClone);
     const article = reader.parse();
 
     if (article) {
       sendResponse({
         title: article.title,
+        content: article.textContent, // Para IA e busca
+        html: article.content,        // Para o Modo Leitura visual
         url: window.location.href,
-        content: article.textContent, // Texto limpo para a IA
-        html: article.content,        // HTML limpo para o Modo Leitura
-        excerpt: article.excerpt,     // Um pequeno resumo do próprio site
-        byline: article.byline        // Autor
+        excerpt: article.excerpt
       });
     } else {
-      sendResponse(null);
+      // Caso a biblioteca falhe, enviamos um fallback simples
+      sendResponse({
+        title: document.title,
+        content: document.body.innerText.substring(0, 1000),
+        url: window.location.href
+      });
     }
   }
-  return true;
+  return true; // Mantém o canal aberto para processamento assíncrono
 });
