@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepRead AI - Leia sem limites e sem Paywall</title>
+    <title>DeepRead - Leia sem limites e sem Paywall</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .gradient-bg {
@@ -26,6 +26,7 @@
             Baixar Grátis
         </a>
     </nav>
+
     <main class="max-w-5xl mx-auto text-center mt-16 md:mt-24 px-6">
         <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 text-slate-900">
             O fim dos <span class="text-blue-600">Paywalls</span> <br class="hidden md:block"> e da bagunça visual.
@@ -33,6 +34,7 @@
         <p class="text-xl text-slate-600 mb-12 max-w-2xl mx-auto">
             Remova anúncios, pule bloqueios de notícias e organize sua leitura em um só lugar. Gratuito, rápido e privado.
         </p>
+
         <div class="max-w-3xl mx-auto mb-16">
             <div class="p-2 bg-white rounded-2xl shadow-2xl border border-slate-100 flex flex-col md:flex-row gap-2">
                 <input 
@@ -51,7 +53,7 @@
                     </svg>
                 </button>
             </div>
-            <p class="mt-3 text-sm text-slate-400 font-medium italic">Experimente o poder da limpeza instantânea</p>
+            <p class="mt-3 text-sm text-slate-400 font-medium italic">Experimente o poder da limpeza instantânea via Txtify</p>
         </div>
 
         <div id="download" class="flex flex-col md:flex-row justify-center gap-4">
@@ -64,6 +66,7 @@
             </a>
         </div>
     </main>
+
     <section id="como-instalar" class="max-w-6xl mx-auto mt-32 px-6">
         <div class="bg-blue-50 rounded-3xl p-8 md:p-12 border border-blue-100">
             <h2 class="text-3xl font-bold text-center mb-12">Como instalar no Chrome (30 segundos)</h2>
@@ -86,32 +89,36 @@
             </div>
         </div>
     </section>
+
     <section id="funcionalidades" class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 mt-24 px-6 pb-32">
         <div class="p-8 bg-white rounded-3xl shadow-sm border border-slate-100">
             <div class="text-4xl mb-6">🔓</div>
             <h3 class="font-bold text-xl mb-3">Bye, Bye Paywalls</h3>
-            <p class="text-slate-500 leading-relaxed">Nossa extensão disfarça sua conexão para que grandes jornais permitam sua entrada sem bloqueios.</p>
+            <p class="text-slate-500 leading-relaxed">Nossa extensão disfarça sua conexão para que jornais permitam sua entrada sem bloqueios.</p>
         </div>
         <div class="p-8 bg-white rounded-3xl shadow-sm border border-slate-100">
             <div class="text-4xl mb-6">📖</div>
             <h3 class="font-bold text-xl mb-3">Leitura Pura</h3>
-            <p class="text-slate-500 leading-relaxed">Extraímos apenas o que importa: o texto e as imagens do autor. Sem banners, sem popups, sem distrações.</p>
+            <p class="text-slate-500 leading-relaxed">Extraímos apenas o que importa: texto e imagens. Sem banners ou distrações.</p>
         </div>
         <div class="p-8 bg-white rounded-3xl shadow-sm border border-slate-100">
             <div class="text-4xl mb-6">🛡️</div>
             <h3 class="font-bold text-xl mb-3">Privacidade Local</h3>
-            <p class="text-slate-500 leading-relaxed">Diferente de outros serviços, seus artigos ficam salvos apenas no seu computador. Seus dados são seus.</p>
+            <p class="text-slate-500 leading-relaxed">Seus artigos ficam salvos apenas no seu computador. Segurança total.</p>
         </div>
     </section>
+
     <footer class="text-center py-12 border-t border-slate-100 text-slate-400 text-sm">
-        <p>&copy; 2026 DeepRead AI. Criado para leitores vorazes.</p>
+        <p>&copy; 2026 • DeepRead • Criado para leitores vorazes.</p>
     </footer>
+
     <script>
         function testDrive() {
-            const url = document.getElementById('article-url').value;
+            let url = document.getElementById('article-url').value.trim();
             if (url && url.startsWith('http')) {
-                // Redireciona para um proxy de limpeza (12ft.io) para o usuário ver o efeito imediato
-                window.open("https://12ft.io/" + url, "_blank");
+                // CORREÇÃO: Usando Txtify.it em vez do 12ft.io que está offline/bloqueado
+                // Txtify funciona muito melhor para o público brasileiro
+                window.open("https://txtify.it/" + url, "_blank");
             } else {
                 alert("Por favor, cole um link completo (começando com http:// ou https://)");
             }
