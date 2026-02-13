@@ -1,5 +1,9 @@
 // 1. Função para limpar obstáculos visuais
 // src/content.js
+// Limpa cookies do lado do cliente para confundir o rastreamento local
+document.cookie.split(";").forEach(function(c) { 
+  document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+});
 
 function killPaywalls() {
     // 1. Remove os overlays e bloqueios específicos
