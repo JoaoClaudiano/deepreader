@@ -7,7 +7,8 @@
     "activeTab",
     "storage",
     "scripting",
-    "declarativeNetRequest"
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
   ],
   "host_permissions": [
     "<all_urls>"
@@ -26,7 +27,8 @@
     {
       "matches": ["<all_urls>"],
       "js": ["lib/Readability.js", "src/content.js"],
-      "css": ["src/styles.css"]
+      "css": ["src/styles.css"],
+      "run_at": "document_start"
     }
   ],
   "declarative_net_request": {
