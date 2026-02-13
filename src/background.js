@@ -1,21 +1,17 @@
 // src/background.js
-
 chrome.runtime.onInstalled.addListener(() => {
   console.log("DeepRead AI: Proteção de Scripts e Sistema de Cascata Ativados.");
 });
-
 // 1. Bloqueio de Scripts de Paywall (DNR)
 const paywallRules = [
   { "id": 1, "priority": 1, "action": { "type": "block" }, "condition": { "urlFilter": "*static/js/paywall*", "resourceTypes": ["script"] } },
   { "id": 2, "priority": 1, "action": { "type": "block" }, "condition": { "urlFilter": "*tinypass.com*", "resourceTypes": ["script"] } },
   { "id": 3, "priority": 1, "action": { "type": "block" }, "condition": { "urlFilter": "*piano.io*", "resourceTypes": ["script"] } }
 ];
-
 chrome.declarativeNetRequest.updateDynamicRules({
   addRules: paywallRules,
   removeRuleIds: [1, 2, 3]
 });
-
 // 2. Sistema de Cascata de Redirecionamento (Fallback)
 function getFallbackURL(url, type) {
   switch(type) {
