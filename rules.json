@@ -45,7 +45,7 @@
         "popular.com.br", 
         "jornalnoticiasdodia.com.br"
       ],
-      "resourceTypes": ["main_frame", "sub_frame"]
+      "resourceTypes": ["main_frame", "sub_frame", "xmlhttprequest", "other"]
     }
   }
 ]
