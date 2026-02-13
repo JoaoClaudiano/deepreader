@@ -1,9 +1,54 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-<title>Deep Reader</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepRead - Leia sem limites</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h1>Welcome to Deep Reader</h1>
-<p>This is a sample HTML file used in the Deep Reader project.</p>
+<body class="bg-slate-50 text-slate-900 font-sans">
+
+    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto">
+        <div class="text-2xl font-bold text-blue-600">DeepRead<span class="text-slate-400">AI</span></div>
+        <a href="#download" class="bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-700 transition">Baixar Grátis</a>
+    </nav>
+
+    <main class="max-w-4xl mx-auto text-center mt-20 px-6">
+        <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6">
+            O fim dos <span class="text-blue-600">Paywalls</span> e da desordem.
+        </h1>
+        <p class="text-xl text-slate-600 mb-10">
+            Remova anúncios, pule bloqueios de notícias e receba resumos por IA instantaneamente. O seu conhecimento, sem barreiras.
+        </p>
+
+        <div id="download" class="flex flex-col md:flex-row justify-center gap-4">
+            <a href="#" class="bg-slate-900 text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center hover:scale-105 transition">
+                Instalar no Microsoft Edge
+            </a>
+            <a href="https://github.com/SEU_USUARIO/SEU_REPO/archive/refs/heads/main.zip" class="border-2 border-slate-300 px-8 py-4 rounded-xl font-bold flex items-center justify-center hover:bg-slate-100 transition">
+                Baixar para Chrome (.zip)
+            </a>
+        </div>
+        <p class="mt-4 text-sm text-slate-400 italic">Totalmente gratuito. Sem taxas ocultas.</p>
+    </main>
+
+    <section class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 mt-32 px-6 pb-20">
+        <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+            <div class="text-3xl mb-4">🔓</div>
+            <h3 class="font-bold text-lg">Acesso Total</h3>
+            <p class="text-slate-500">Nossa tecnologia híbrida remove bloqueios de leitura dos principais portais brasileiros.</p>
+        </div>
+        <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+            <div class="text-3xl mb-4">🧠</div>
+            <h3 class="font-bold text-lg">IA de Bolso</h3>
+            <p class="text-slate-500">Resumos automáticos em 3 pontos para você decidir se o texto vale seu tempo.</p>
+        </div>
+        <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+            <div class="text-3xl mb-4">📂</div>
+            <h3 class="font-bold text-lg">Sincronize Tudo</h3>
+            <p class="text-slate-500">Salve seus destaques diretamente no seu app de notas favorito (Em breve).</p>
+        </div>
+    </section>
+
 </body>
 </html>
