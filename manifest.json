@@ -28,6 +28,18 @@
     "matches": ["<all_urls>"],
     "js": ["lib/Readability.js", "src/content.js"],
     "css": ["src/styles.css"]
-  }
+  },
+    "declarative_net_request": {
+  "rule_resources": [{
+    "id": "ruleset_1",
+    "enabled": true,
+    "path": "rules.json"
+  }]
+},
+"permissions": [
+  "storage",
+  "declarativeNetRequest",
+  "activeTab"
+]
   ]
 }
