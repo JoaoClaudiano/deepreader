@@ -23,6 +23,11 @@
       "matches": ["<all_urls>"],
       "js": ["src/content.js"],
       "css": ["src/styles.css"]
-    }
+    },
+    {
+    "matches": ["<all_urls>"],
+    "js": ["lib/Readability.js", "src/content.js"],
+    "css": ["src/styles.css"]
+  }
   ]
 }
