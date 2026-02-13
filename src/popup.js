@@ -12,6 +12,8 @@ document.getElementById('btn-save').addEventListener('click', async () => {
         ...articleData,
         date: new Date().toISOString()
       });
+      
+      
 
       // Salvar de volta no navegador do usuário
       chrome.storage.local.set({ savedArticles: articles }, () => {
@@ -20,3 +22,9 @@ document.getElementById('btn-save').addEventListener('click', async () => {
     });
   });
 });
+
+// Adicione um listener para um botão "Ver Meus Artigos"
+document.getElementById('btn-open-library').addEventListener('click', () => {
+    chrome.tabs.create({ url: 'src/dashboard.html' });
+});
+
