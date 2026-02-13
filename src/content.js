@@ -1,7 +1,58 @@
 // 1. Função para limpar obstáculos visuais
 // src/content.js
 // Limpa cookies do lado do cliente para confundir o rastreamento local
+// src/content.js
 
+function forceClean() {
+    // 1. Remove filtros de Blur (embaçado) e Opacidade
+    const style = document.createElement('style');
+    style.innerHTML = `
+        html, body { 
+            overflow: auto !important; 
+            height: auto !important; 
+            position: relative !important; 
+        }
+        * { 
+            filter: none !important; 
+            opacity: 1 !important; 
+            user-select: text !important; 
+        }
+        [class*="paywall"], [id*="paywall"], [class*="modal"], [class*="gate"], .tp-backdrop {
+            display: none !important;
+            visibility: hidden !important;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // 2. Remove classes de bloqueio do Body (comum no O Povo e Estadão)
+    document.body.className = "";
+    document.body.style.overflow = "auto";
+    
+    // 3. Força a exibição do texto que o site tentou esconder
+    const contentSelectors = '.materia-conteudo, .texto-conteudo, article, .paywall-content';
+    document.querySelectorAll(contentSelectors).forEach(el => {
+        el.style.setProperty("display", "block", "important");
+        el.style.setProperty("visibility", "visible", "important");
+        el.style.setProperty("max-height", "none", "important");
+    });
+}
+
+// Executa em cascata para garantir que vença o carregamento do site
+forceClean();
+window.addEventListener('load', forceClean);
+setTimeout(forceClean, 2000);
+
+// Listener para a extração do Readability
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "GET_CLEAN_CONTENT") {
+        forceClean();
+        const docClone = document.cloneNode(true);
+        const reader = new Readability(docClone);
+        const article = reader.parse();
+        sendResponse(article || { title: document.title, content: document.body.innerText, url: window.location.href });
+    }
+    return true;
+});
 // Impede que scripts do site detectem modificações no DOM por alguns segundos
 const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
