@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        { "header": "User-Agent", "operation": "set", "value": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)" },
+        { "header": "Referer", "operation": "set", "value": "https://www.google.com/" }
+      ]
+    },
+    "condition": {
+      "urlFilter": "*://*.jornal-exemplo.com.br/*", 
+      "resourceTypes": ["main_frame"]
+    }
+  }
+]
