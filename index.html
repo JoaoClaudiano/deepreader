@@ -1,54 +1,127 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepRead - Leia sem limites</title>
+    <title>DeepRead AI - Leia sem limites e sem Paywall</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: radial-gradient(circle at top right, #eff6ff, #ffffff);
+        }
+        .step-card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans">
+<body class="gradient-bg text-slate-900 font-sans antialiased">
 
     <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto">
-        <div class="text-2xl font-bold text-blue-600">DeepRead<span class="text-slate-400">AI</span></div>
-        <a href="#download" class="bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-700 transition">Baixar Grátis</a>
+        <div class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+            <span>⚡ DeepRead</span><span class="text-slate-400 font-light text-lg">AI</span>
+        </div>
+        <div class="hidden md:flex gap-8 text-slate-600 font-medium">
+            <a href="#como-instalar" class="hover:text-blue-600 transition">Como Instalar</a>
+            <a href="#funcionalidades" class="hover:text-blue-600 transition">Funcionalidades</a>
+        </div>
+        <a href="#download" class="bg-blue-600 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-100">
+            Baixar Grátis
+        </a>
     </nav>
 
-    <main class="max-w-4xl mx-auto text-center mt-20 px-6">
-        <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6">
-            O fim dos <span class="text-blue-600">Paywalls</span> e da desordem.
+    <main class="max-w-5xl mx-auto text-center mt-16 md:mt-24 px-6">
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 text-slate-900">
+            O fim dos <span class="text-blue-600">Paywalls</span> <br class="hidden md:block"> e da bagunça visual.
         </h1>
-        <p class="text-xl text-slate-600 mb-10">
-            Remova anúncios, pule bloqueios de notícias e receba resumos por IA instantaneamente. O seu conhecimento, sem barreiras.
+        <p class="text-xl text-slate-600 mb-12 max-w-2xl mx-auto">
+            Remova anúncios, pule bloqueios de notícias e organize sua leitura em um só lugar. Gratuito, rápido e privado.
         </p>
 
+        <div class="max-w-3xl mx-auto mb-16">
+            <div class="p-2 bg-white rounded-2xl shadow-2xl border border-slate-100 flex flex-col md:flex-row gap-2">
+                <input 
+                    type="url" 
+                    id="article-url" 
+                    placeholder="Cole o link de uma notícia bloqueada aqui..." 
+                    class="flex-1 px-6 py-4 rounded-xl focus:outline-none text-lg bg-transparent"
+                >
+                <button 
+                    onclick="testDrive()" 
+                    class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                >
+                    <span>Ler Agora</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mt-3 text-sm text-slate-400 font-medium italic">Experimente o poder da limpeza instantânea</p>
+        </div>
+
         <div id="download" class="flex flex-col md:flex-row justify-center gap-4">
-            <a href="#" class="bg-slate-900 text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center hover:scale-105 transition">
-                Instalar no Microsoft Edge
+            <a href="#" class="bg-slate-900 text-white px-10 py-5 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-slate-800 transition shadow-xl">
+                <span>Instalar no Edge</span>
+                <span class="bg-slate-700 text-[10px] px-2 py-0.5 rounded text-slate-300">LOJA OFICIAL</span>
             </a>
-            <a href="https://github.com/SEU_USUARIO/SEU_REPO/archive/refs/heads/main.zip" class="border-2 border-slate-300 px-8 py-4 rounded-xl font-bold flex items-center justify-center hover:bg-slate-100 transition">
+            <a href="https://github.com/SEU_USUARIO/SEU_REPO/archive/refs/heads/main.zip" class="bg-white border-2 border-slate-200 text-slate-700 px-10 py-5 rounded-2xl font-bold flex items-center justify-center hover:bg-slate-50 transition">
                 Baixar para Chrome (.zip)
             </a>
         </div>
-        <p class="mt-4 text-sm text-slate-400 italic">Totalmente gratuito. Sem taxas ocultas.</p>
     </main>
 
-    <section class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 mt-32 px-6 pb-20">
-        <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-            <div class="text-3xl mb-4">🔓</div>
-            <h3 class="font-bold text-lg">Acesso Total</h3>
-            <p class="text-slate-500">Nossa tecnologia híbrida remove bloqueios de leitura dos principais portais brasileiros.</p>
-        </div>
-        <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-            <div class="text-3xl mb-4">🧠</div>
-            <h3 class="font-bold text-lg">IA de Bolso</h3>
-            <p class="text-slate-500">Resumos automáticos em 3 pontos para você decidir se o texto vale seu tempo.</p>
-        </div>
-        <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-            <div class="text-3xl mb-4">📂</div>
-            <h3 class="font-bold text-lg">Sincronize Tudo</h3>
-            <p class="text-slate-500">Salve seus destaques diretamente no seu app de notas favorito (Em breve).</p>
+    <section id="como-instalar" class="max-w-6xl mx-auto mt-32 px-6">
+        <div class="bg-blue-50 rounded-3xl p-8 md:p-12 border border-blue-100">
+            <h2 class="text-3xl font-bold text-center mb-12">Como instalar no Chrome (30 segundos)</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="step-card bg-white p-6 rounded-2xl shadow-sm">
+                    <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold mb-4">1</div>
+                    <h4 class="font-bold mb-2">Baixe e Extraia</h4>
+                    <p class="text-slate-500 text-sm">Baixe o arquivo .zip acima e extraia a pasta em qualquer lugar do seu PC.</p>
+                </div>
+                <div class="step-card bg-white p-6 rounded-2xl shadow-sm">
+                    <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold mb-4">2</div>
+                    <h4 class="font-bold mb-2">Modo Desenvolvedor</h4>
+                    <p class="text-slate-500 text-sm">Abra <b>chrome://extensions</b> e ative a chave "Modo do Desenvolvedor" no canto superior direito.</p>
+                </div>
+                <div class="step-card bg-white p-6 rounded-2xl shadow-sm">
+                    <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold mb-4">3</div>
+                    <h4 class="font-bold mb-2">Carregar Pasta</h4>
+                    <p class="text-slate-500 text-sm">Clique em "Carregar sem compactação" e selecione a pasta que você extraiu. Pronto!</p>
+                </div>
+            </div>
         </div>
     </section>
 
+    <section id="funcionalidades" class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 mt-24 px-6 pb-32">
+        <div class="p-8 bg-white rounded-3xl shadow-sm border border-slate-100">
+            <div class="text-4xl mb-6">🔓</div>
+            <h3 class="font-bold text-xl mb-3">Bye, Bye Paywalls</h3>
+            <p class="text-slate-500 leading-relaxed">Nossa extensão disfarça sua conexão para que grandes jornais permitam sua entrada sem bloqueios.</p>
+        </div>
+        <div class="p-8 bg-white rounded-3xl shadow-sm border border-slate-100">
+            <div class="text-4xl mb-6">📖</div>
+            <h3 class="font-bold text-xl mb-3">Leitura Pura</h3>
+            <p class="text-slate-500 leading-relaxed">Extraímos apenas o que importa: o texto e as imagens do autor. Sem banners, sem popups, sem distrações.</p>
+        </div>
+        <div class="p-8 bg-white rounded-3xl shadow-sm border border-slate-100">
+            <div class="text-4xl mb-6">🛡️</div>
+            <h3 class="font-bold text-xl mb-3">Privacidade Local</h3>
+            <p class="text-slate-500 leading-relaxed">Diferente de outros serviços, seus artigos ficam salvos apenas no seu computador. Seus dados são seus.</p>
+        </div>
+    </section>
+
+    <footer class="text-center py-12 border-t border-slate-100 text-slate-400 text-sm">
+        <p>&copy; 2026 DeepRead AI. Criado para leitores vorazes.</p>
+    </footer>
+
+    <script>
+        function testDrive() {
+            const url = document.getElementById('article-url').value;
+            if (url && url.startsWith('http')) {
+                // Redireciona para um proxy de limpeza (12ft.io) para o usuário ver o efeito imediato
+                window.open("https://12ft.io/" + url, "_blank");
+            } else {
+                alert("Por favor, cole um link completo (começando com http:// ou https://)");
+            }
+        }
+    </script>
 </body>
 </html>
