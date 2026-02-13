@@ -3,19 +3,17 @@
 document.getElementById('btn-save').addEventListener('click', async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     const statusEl = document.getElementById('status');
-    statusEl.innerText = "Analisando página...";
+    statusEl.innerText = "Limpando página...";
 
     chrome.tabs.sendMessage(tab.id, { action: "GET_CLEAN_CONTENT" }, (response) => {
-        if (response && response.status === "success") {
-            // Caso 1: Sucesso na extração local
+        // Se a resposta for sucesso e tiver conteúdo real (> 500 caracteres)
+        if (response && response.status === "success" && response.data.content.length > 500) {
             chrome.runtime.sendMessage({ type: "SAVE_ARTICLE_LOCAL", data: response.data }, (res) => {
-                statusEl.innerText = "Salvo localmente! ✨";
+                statusEl.innerText = "Salvo com sucesso! ✨";
             });
         } else {
-            // Caso 2: Conteúdo bloqueado pelo servidor (Cascata de Fallback)
-            statusEl.innerText = "Conteúdo bloqueado. Tentando técnica alternativa...";
-            
-            // Inicia cascata: primeiro tenta o Txtify (mais rápido)
+            // Se falhar (Server-side block), pula para o Txtify imediatamente
+            statusEl.innerText = "Bloqueio severo detectado. Usando Txtify...";
             chrome.runtime.sendMessage({ 
                 type: "TRY_FALLBACK", 
                 url: tab.url, 
@@ -27,8 +25,12 @@ document.getElementById('btn-save').addEventListener('click', async () => {
 
 document.getElementById('btn-force-text').addEventListener('click', async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    // Botão manual agora tenta o Google Cache (o mais forte)
-    chrome.runtime.sendMessage({ type: "TRY_FALLBACK", url: tab.url, method: 'google_cache' });
+    // Botão laranja: Força o Google Cache (o mais potente)
+    chrome.runtime.sendMessage({ 
+        type: "TRY_FALLBACK", 
+        url: tab.url, 
+        method: 'google_cache' 
+    });
 });
 
 document.getElementById('btn-open-library').addEventListener('click', () => {
