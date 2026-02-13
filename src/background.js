@@ -1,5 +1,4 @@
 // src/background.js
-
 // 1. Bloqueio de Scripts de Paywall (DNR)
 const paywallRules = [
   { "id": 1, "priority": 1, "action": { "type": "block" }, "condition": { "urlFilter": "*static/js/paywall*", "resourceTypes": ["script"] } },
