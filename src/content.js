@@ -1,10 +1,23 @@
 // 1. Função para limpar obstáculos visuais
 // src/content.js
 // Limpa cookies do lado do cliente para confundir o rastreamento local
+
+// Impede que scripts do site detectem modificações no DOM por alguns segundos
+const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        if (mutation.addedNodes) {
+            mutation.addedNodes.forEach((node) => {
+                if (node.className && typeof node.className === 'string' && node.className.includes('paywall')) {
+                    node.remove();
+                }
+            });
+        }
+    });
+});
 document.cookie.split(";").forEach(function(c) { 
   document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
 });
-
+observer.observe(document.documentElement, { childList: true, subtree: true });
 function killPaywalls() {
     // 1. Remove os overlays e bloqueios específicos
     const selectors = [
