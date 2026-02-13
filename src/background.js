@@ -1,5 +1,10 @@
 // src/background.js
-// 1. Bloqueio de Scripts de Paywall (DNR)
+
+chrome.runtime.onInstalled.addListener(() => {
+  console.log("DeepRead AI: Sistema de Cascata v2 Ativado.");
+});
+
+// 1. Regras de Bloqueio (DNR)
 const paywallRules = [
   { "id": 1, "priority": 1, "action": { "type": "block" }, "condition": { "urlFilter": "*static/js/paywall*", "resourceTypes": ["script"] } },
   { "id": 2, "priority": 1, "action": { "type": "block" }, "condition": { "urlFilter": "*tinypass.com*", "resourceTypes": ["script"] } },
@@ -11,16 +16,19 @@ chrome.declarativeNetRequest.updateDynamicRules({
   removeRuleIds: [1, 2, 3]
 });
 
-// 2. Função de Fallback (REMOVIDO 12FT QUE DÁ ERRO)
+// 2. Gerenciador de Redirecionamento (A CASCATA)
 function getFallbackURL(url, method) {
+  // Limpa a URL de qualquer prefixo de burladores antigos
+  const cleanUrl = url.replace(/^https?:\/\/12ft\.io\//, "");
+
   if (method === 'google_cache') {
-    return `https://webcache.googleusercontent.com/search?q=cache:${url}`;
+    return `https://webcache.googleusercontent.com/search?q=cache:${cleanUrl}`;
   }
   if (method === 'archive') {
-    return `https://archive.is/latest/${url}`;
+    return `https://archive.is/latest/${cleanUrl}`;
   }
-  // Padrão: Txtify (Mais estável para jornais brasileiros)
-  return `https://txtify.it/${url.replace(/^https?:\/\//, '')}`;
+  // PADRÃO: Txtify.it (O que mais funciona para O Povo e jornais BR)
+  return `https://txtify.it/${cleanUrl}`;
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -35,7 +43,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   }
 
-  // Se o conteúdo falhar, tentamos a técnica seguinte
   if (message.type === "TRY_FALLBACK") {
     const nextUrl = getFallbackURL(message.url, message.method);
     chrome.tabs.create({ url: nextUrl });
