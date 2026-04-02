@@ -1,4 +1,4 @@
-# ZenReader 📚
+# DeepReader 📚
 
 Uma solução moderna e independente para curadoria e leitura de artigos, focada em simplicidade e privacidade.
 
